@@ -22,4 +22,6 @@ RUN chown -R node /usr/src/app
 
 USER node
 
+RUN npm run seed
+
 CMD ["npm", "run", "start:prod"]

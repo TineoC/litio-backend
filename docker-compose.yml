@@ -1,12 +1,23 @@
-version: '3.4'
+version: '3.9'
 
 services:
-  litiobackend:
-    image: litiobackend
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
+  # server:
+  #   image: litio-backend
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 3000:3000
+  db:
+    image: postgres:16-alpine3.18
+    restart: always
     ports:
-      - 3000:3000
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+volumes:
+  postgres_db:
+    driver: local
