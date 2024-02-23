@@ -47,7 +47,6 @@ export class CompanyService {
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto) {
     try {
-      console.log({ ...updateCompanyDto });
       const updatedCompany = await this.prisma.company.update({
         data: {
           ...updateCompanyDto,
