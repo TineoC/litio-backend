@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,23 +7,76 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CompanyService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createCompanyDto: CreateCompanyDto) {
-    return 'This action adds a new company';
+  async create(createCompanyDto: CreateCompanyDto) {
+    try {
+      const company = await this.prisma.company.create({
+        data: {
+          ...createCompanyDto,
+        },
+      });
+
+      return company;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all company`;
+  async findAll() {
+    try {
+      const allCompanies = await this.prisma.company.findMany();
+
+      return allCompanies;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  async findOne(id: string) {
+    try {
+      const searchedCompany = await this.prisma.company.findFirstOrThrow({
+        where: {
+          id,
+        },
+      });
+
+      return searchedCompany;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
+  async update(id: string, updateCompanyDto: UpdateCompanyDto) {
+    try {
+      console.log({ ...updateCompanyDto });
+      const updatedCompany = await this.prisma.company.update({
+        data: {
+          ...updateCompanyDto,
+        },
+        where: {
+          id,
+        },
+      });
+
+      return updatedCompany;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async remove(id: string) {
+    try {
+      const removedCompany = await this.prisma.company.update({
+        data: {
+          status: false,
+        },
+        where: {
+          id,
+        },
+      });
+
+      return removedCompany;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

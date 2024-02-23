@@ -16,12 +16,14 @@ RUN npm run build
 
 EXPOSE 3000
 
-FROM build AS run
+RUN npx prisma generate
+
+RUN npx prisma migrate dev
+
+RUN npx ts-node ./prisma/seed.ts
 
 RUN chown -R node /usr/src/app
 
 USER node
-
-RUN npm run seed
 
 CMD ["npm", "run", "start:prod"]
