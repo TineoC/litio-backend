@@ -16,7 +16,7 @@
 
 3. Run the docker-compose.yml passing the env variables via the command line.
 
-   ` ```bash $ POSTGRES_USER=(db_user) POSTGRES_PASSWORD=(db_password) DATABASE_URL=(db_postgresql_url) docker compose up -d ``` `
+   `bash $ POSTGRES_USER=(db_user) POSTGRES_PASSWORD=(db_password) DATABASE_URL=(db_postgresql_url) docker compose up -d`
 
 4. > Sample PostgreSQLURL: postgresql://postgres:password@db:5432/postgres?schema=public docker compose up -d
 
